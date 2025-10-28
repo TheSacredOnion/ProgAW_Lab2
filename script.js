@@ -1,6 +1,8 @@
 (function () {
   const example = document.getElementById('example')
   const cw1 = document.getElementById('cw1')
+  const postIdInput = document.getElementById('postId');
+  const cw1GetButton = document.getElementById('cw1-get');
   const cw2 = document.getElementById('cw2')
   const cw3 = document.getElementById('cw3')
   const answer = document.getElementById('answer')
@@ -31,7 +33,30 @@
     .catch(error => {
       console.error("Błąd podczas pobierania danych:", error);
     });
-});
+  });
+
+  cw1GetButton.addEventListener("click", function () {
+    const postId = postIdInput.value;
+    if (!postId) {
+      alert("Proszę wpisać ID posta.");
+      return;
+    }
+    answer.innerHTML = "Ładowanie danych...";
+    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Post nie znaleziony");
+        }
+        return response.json();
+      })
+      .then(post => {
+        answer.innerHTML = `Id = ${post.id} <br> Title = ${post.title} <br> Body = ${post.body}`;
+      })
+      .catch(error => {
+        console.error("Błąd podczas pobierania danych:", error);
+        answer.innerHTML = "Błąd podczas pobierania danych.";
+      });
+  });
 
   cw2.addEventListener("click", function () {
     //TODO
