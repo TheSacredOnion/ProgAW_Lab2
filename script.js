@@ -62,8 +62,25 @@
     //TODO
   })
 
-  cw3.addEventListener("click", function () {
-    //TODO
+  cw3.addEventListener("click", async function () {
+    answer.innerHTML = "Ładowanie danych...";
+    try {
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({
+          title: 'foo',
+          body: 'bar',
+          userId: 1
+        })
+      });
+
+      const data = await res.json();
+      console.log(data);
+      answer.textContent = `Dodano post o ID = ${data.id}`;
+    } catch (error) {
+      answer.textContent = `Błąd podczas dodawania posta. ${error}`;
+    }
   })
 
 })();
