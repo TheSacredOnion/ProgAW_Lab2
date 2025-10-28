@@ -15,16 +15,22 @@
   })
 
   cw1.addEventListener("click", function () {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then(response => response.json())
-      .then(array => {
-        answer.innerHTML = "<ul>";
-        array.forEach(post => {
-          answer.innerHTML += `<li> Id = ${post.id} <br> Title = ${post.title} <br> Body = ${post.body}<br><br></li>`;
-        });
-        answer.innerHTML += "</ul>";
-      })
-  })
+  fetch("https://jsonplaceholder.typicode.com/posts")
+    .then(response => response.json())
+    .then(array => {
+      answer.innerHTML = "";
+      const ul = document.createElement("ul");
+      array.forEach(post => {
+        const li = document.createElement("li");
+        li.innerHTML = `Id = ${post.id} <br> Title = ${post.title} <br> Body = ${post.body}`;
+        ul.appendChild(li);
+      });
+      answer.appendChild(ul);
+    })
+    .catch(error => {
+      console.error("Błąd podczas pobierania danych:", error);
+    });
+});
 
   cw2.addEventListener("click", function () {
     //TODO
